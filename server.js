@@ -13,11 +13,11 @@ app.use(express.static('public'));
 
 // http://expressjs.com/en/starter/basic-routing.html
 app.get("/", function (request, response) {
-  response.sendFile(__dirname + '/views/index.html');
+  response.sendFile(__dirname + '/index.html');
 });
 
 app.get("/application.js", function (request, response) {
-  response.sendFile(__dirname + '/public/application.js');
+  response.sendFile(__dirname + '/application.js');
 });
 
 // listen for requests :)

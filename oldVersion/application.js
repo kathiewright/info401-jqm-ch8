@@ -1,25 +1,31 @@
+/*	Project:  notekeeperapp.js
+	Date:     February 20, 2017
+	Purpose:  To enable the creation of "notes" using HTML5 local storage */
+
 $(function(){
 
 	// define the application
-	var Notekeeper = {};                    //creates an object variable for the application
+	var Notekeeper = {};                //creates an object variable for the application
 
-	(function(app){                        //creates the master function for the entire app--holds multiple sub-functions
+	(function(app){                    //creates an object variable for the application
 
 		// variable definitions go here
-		var $title = $('#title'),            // the $() makes this a jQuery object
+		var $title = $('#title'),        // the $() makes this a jQuery object
 			$note = $('#note'),
-    	$ul = $('#notesList'),
-			li = '<li><a href="#pgNotesDetail?title=LINK">ID</a></li>',  //note that the title is also the href
+			$ul = $('#notesList'),        
+        //note that the title is also the href
+			li = '<li><a href="#pgNotesDetail?title=LINK">ID</a></li>',
 			notesHdr = '<li data-role="list-divider">Your Notes</li>',
 			noNotes = '<li id="noNotes">You have no notes</li>';
 
-		app.init = function(){              // when the application initializes ....
-			app.bindings();                  // link (bind) the application functions to the entered/stored data
-			app.checkForStorage();
+		app.init = function(){
+			app.bindings();                // when the application initializes ....
+			app.checkForStorage();        // link (bind) the application functions to the entered/stored data
 		};
 
-		app.bindings = function(){        // what did the user want to do?  Identify where the touchend event occured 
-			$('#btnAddNote').on('touchend', function(e){      //the user clicked on the AddNote button
+		app.bindings = function(){      // what did the user want to do?  Identify where the touchend event occured
+			// set up binding for form
+			$('#btnAddNote').on('touchend', function(e){    //the user touched the AddNote button
 				e.preventDefault();
 				// save the note
 				app.addNote(
@@ -27,7 +33,7 @@ $(function(){
 					$('#note').val()
 				);
 			});
-			$(document).on('touchend', '#notesList a', function(e){   //the user clicked on one of the notes
+			$(document).on('touchend', '#notesList a', function(e){  //the user clicked on one of the notes
 				e.preventDefault();
 				var href = $(this)[0].href.match(/\?.*$/)[0];          //use these regular patterns to find the note and load it
 				var title = href.replace(/^\?title=/,'');
@@ -40,7 +46,7 @@ $(function(){
 			});
 		};
 
-		app.loadNote = function(title){                        //go to a new "page" and build the note content 
+		app.loadNote = function(title){  //go to a new "page" and build the note content 
 			// get notes
 			var notes = app.getNotes(),
 				// lookup specific note
@@ -65,9 +71,9 @@ $(function(){
 		};
 
 		app.addNote = function(title, note){
-			var notes = localStorage['Notekeeper'],        //add a note to the ones already in storage
+			var notes = localStorage['Notekeeper'],      //add a note to the ones already in storage
 				notesObj;
-			if (notes === undefined || notes === '') {     //if there are no notes, start with an empty note object.
+			if (notes === undefined || notes === '') {  //if there are no notes, start with an empty note object.
 				notesObj = {};
 			} else {
 				notesObj = JSON.parse(notes);
